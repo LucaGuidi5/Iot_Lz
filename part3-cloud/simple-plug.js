@@ -13,10 +13,12 @@ var client = mqtt.connect("mqtts://mqtt.evrythng.com:8883", {// #B
   password: thngApiKey 
 });
 
+
 client.on('connect', function () { // #C
+  console.log('Connected to the mqtt broker!');
   client.subscribe(thngUrl+'/properties/'); //#D
   updateProperty('livenow', true); //#E
-
+  
   if (!interval) interval = setInterval(updateProperties, 5000); //#F
 });
 
