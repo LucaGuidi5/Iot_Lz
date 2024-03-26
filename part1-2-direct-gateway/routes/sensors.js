@@ -1,7 +1,9 @@
 // Final version
 var express = require('express'),
   router = express.Router(),
-  resources = require('../resources/model');
+  //resources = require('../resources/model');
+  resources = require('../resources/my_model');
+
 
 router.route('/').get(function (req, res, next) {
   req.result = resources.pi.sensors; //#A
@@ -15,6 +17,11 @@ router.route('/pir').get(function (req, res, next) {
 
 router.route('/temperature').get(function (req, res, next) {
   req.result = resources.pi.sensors.temperature;
+  next();
+});
+
+router.route('/pressure').get(function (req, res, next) {
+  req.result = resources.pi.sensors.pressure;
   next();
 });
 
