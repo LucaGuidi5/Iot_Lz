@@ -10,10 +10,10 @@ var exec = require('child_process').exec;
 
 // callback function that waits for the command to be executed returns it as an string
 // datatype = [Temperature, Pressure, Relative humidity]
-function CaptureOutput(datatype, callback) {
+function CaptureOutput(callback) {
     // weather1.py and http server must be in the same folder
     exec("python3 weather1.py", (error, data) => {
-        callback(JSON.parse(data)[datatype])
+        callback(JSON.parse(data))
     })
 }
 
@@ -47,18 +47,13 @@ function connectHardware() {
       model.humidity.value = parseFloat(readout.humidity.toFixed(2)); //#C
       showValue();
         */
-      CaptureOutput('Temperature', function (temperature) {
-        model.temperature.value = temperature;
+      CaptureOutput(function (sensor_json) {
+        model.temperature.value = sensor_json['Temperature'];
+        model.pressure.value = sensor_json['Pressure'];
+        model.humidity.value = sensor_json['Relative humidity'];
         showValue();
       });
-      CaptureOutput('Pressure', function (pressure) {
-        model.temperature.value = pressure;
-        showValue();
-      });
-      CaptureOutput('Relative humidity', function (humidity) {
-        model.humidity.value = humidity;
-        showValue();
-      });
+
       setTimeout(function () {
         sensor.read(); //#D
       }, localParams.frequency);
