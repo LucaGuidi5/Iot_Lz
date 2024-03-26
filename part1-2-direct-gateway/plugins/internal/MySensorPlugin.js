@@ -12,7 +12,11 @@ var exec = require('child_process').exec;
 // datatype = [Temperature, Pressure, Relative humidity]
 function CaptureOutput(callback) {
     // weather1.py and http server must be in the same folder
-    exec("python3 weather1.py", (error, data) => {
+    exec("python3 weather1.py", (err, data) => {
+      if (err) {
+        console.error(`exec error: ${err}`);
+        return;
+      }
       model.temperature.value = JSON.parse(data)['Temperature'];
       model.pressure.value = JSON.parse(data)['Pressure'];
       model.humidity.value = JSON.parse(data)['Relative humidity'];
