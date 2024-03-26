@@ -13,7 +13,11 @@ var exec = require('child_process').exec;
 function CaptureOutput(callback) {
     // weather1.py and http server must be in the same folder
     exec("python3 weather1.py", (error, data) => {
-        callback(JSON.parse(data))
+      model.temperature.value = JSON.parse(data)['Temperature'];
+      model.pressure.value = JSON.parse(data)['Pressure'];
+      model.humidity.value = JSON.parse(data)['Relative humidity'];
+      showValue();
+      callback();
     })
 }
 
@@ -47,11 +51,13 @@ function connectHardware() {
       model.humidity.value = parseFloat(readout.humidity.toFixed(2)); //#C
       showValue();
         */
-      CaptureOutput(function (sensor_json) {
+      CaptureOutput(function () {
+        /*
         model.temperature.value = sensor_json['Temperature'];
         model.pressure.value = sensor_json['Pressure'];
         model.humidity.value = sensor_json['Relative humidity'];
         showValue();
+        */
       });
 
       setTimeout(function () {
