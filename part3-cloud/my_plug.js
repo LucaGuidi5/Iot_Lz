@@ -5,16 +5,16 @@ var thngId=config.thngId;
 var thngUrl='/thngs/'+thngId;
 var thngApiKey=config.thngApiKey;
 var interval;
-var simulation = true;
+var simulation = false;
 
 var exec = require('child_process').exec;
 
 // callback function that waits for the command to be executed returns it as an string
 // datatype = [Temperature, Pressure, Relative humidity]
-function CaptureOutput(datatype, callback) {
+function CaptureOutput(callback) {
     // weather1.py and http server must be in the same folder
     exec("python3 weather1.py", (error, data) => {
-        callback(JSON.parse(data)[datatype])
+        callback(JSON.parse(data))
     })
 }
 
@@ -48,17 +48,12 @@ function updateProperties () {
         var humidity = (0.6+Math.random()/10).toFixed(3); // #J
         updateProperty ('humidity',humidity);
     }else{
-        CaptureOutput('Temperature', function(temperature) { // #H
-            updateProperty ('temperature',temperature.toFixed(3));
+        CaptureOutput(function(sensor_data) { // #H
+            updateProperty ('temperature', sensor_data['Temperature'].toFixed(3));
+            updateProperty ('pressure', sensor_data['Pressure'].toFixed(3));
+            updateProperty ('humidity', sensor_data['Relative humidity'].toFixed(3));
         });
-    
-        CaptureOutput('Pressure', function(pressure) { // #I
-            updateProperty ('pressure',pressure.toFixed(3));
-        });
-    
-        CaptureOutput('Relative humidity', function(humidity) { // #J
-            updateProperty ('humidity',humidity.toFixed(3));
-        });
+
     }
     
 }

@@ -17,11 +17,7 @@ function CaptureOutput(callback) {
         console.error(`exec error: ${err}`);
         return;
       }
-      model.temperature.value = JSON.parse(data)['Temperature'];
-      model.pressure.value = JSON.parse(data)['Pressure'];
-      model.humidity.value = JSON.parse(data)['Relative humidity'];
-      showValue();
-      callback();
+      callback(JSON.parse(data));
     })
 }
 
@@ -55,13 +51,11 @@ function connectHardware() {
       model.humidity.value = parseFloat(readout.humidity.toFixed(2)); //#C
       showValue();
         */
-      CaptureOutput(function () {
-        /*
+      CaptureOutput(function (sensor_json) {
         model.temperature.value = sensor_json['Temperature'];
         model.pressure.value = sensor_json['Pressure'];
         model.humidity.value = sensor_json['Relative humidity'];
         showValue();
-        */
       });
 
       setTimeout(function () {
