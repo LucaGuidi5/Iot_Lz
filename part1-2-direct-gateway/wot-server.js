@@ -14,7 +14,7 @@ var //ledsPlugin = require('./plugins/internal/ledsPlugin'), //#A
 // If you test this with real sensors do not forget to set simulate to 'false'
 pirPlugin.start({'simulate': true, 'frequency': 2000}); //#B
 //ledsPlugin.start({'simulate': true, 'frequency': 10000}); //#B
-dhtPlugin.start({'simulate': true, 'frequency': 10000}); //#B
+dhtPlugin.start({'simulate': false, 'frequency': 10000}); //#B
 
 // External Plugins
 var coapPlugin = require('./plugins/external/coapPlugin');
