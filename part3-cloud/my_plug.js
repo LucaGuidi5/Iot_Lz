@@ -5,7 +5,7 @@ var thngId=config.thngId;
 var thngUrl='/thngs/'+thngId;
 var thngApiKey=config.thngApiKey;
 var interval;
-var simulation = false;
+var simulation = true;
 
 var exec = require('child_process').exec;
 
